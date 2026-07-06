@@ -3,7 +3,7 @@ name: Build & Deploy frontend
 on:
   workflow_dispatch:
   push:
-    branches: [ main ]
+    branches: [ main, dev ]
 
 jobs:
   build-push-deploy:

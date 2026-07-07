@@ -29,17 +29,17 @@ jobs:
         env:
           REGISTRY: ${{ steps.ecr.outputs.registry }}
         run: |
-          IMAGE=$REGISTRY/casino-frontend
+          IMAGE=$REGISTRY/vidal-casino-frontend
           docker build -t $IMAGE:${{ github.sha }} -t $IMAGE:latest .
           docker push $IMAGE:${{ github.sha }}
           docker push $IMAGE:latest
 
       - name: Actualizar Kubeconfig para Amazon EKS
         run: |
-          aws eks update-kubeconfig --region ${{ secrets.AWS_REGION }} --name vidal-casino-cluster
+          aws eks update-kubeconfig --region ${{ secrets.AWS_REGION }} --name casino-eks
 
       - name: Desplegar Frontend en EKS con Kubectl
         run: |
           kubectl apply -f k8s/frontend-deployment.yaml
           
-          kubectl rollout restart deployment/casino-frontend
+          kubectl rollout restart deployment/vidal-casino-frontend

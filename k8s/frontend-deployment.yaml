@@ -1,18 +1,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: casino-frontend
+  name: vidal-casino-frontend
   labels:
-    app: casino-frontend
+    app: vidal-casino-frontend
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: casino-frontend
+      app: vidal-casino-frontend
   template:
     metadata:
       labels:
-        app: casino-frontend
+        app: vidal-casino-frontend
     spec:
       topologySpreadConstraints:
         - maxSkew: 1
@@ -20,11 +20,11 @@ spec:
           whenUnsatisfiable: ScheduleAnyway
           labelSelector:
             matchLabels:
-              app: casino-frontend
+              app: vidal-casino-frontend
 
       containers:
-        - name: casino-frontend
-          image: 631932931672.dkr.ecr.us-east-1.amazonaws.com/casino-frontend:latest
+        - name: vidal-casino-frontend
+          image: 631932931672.dkr.ecr.us-east-1.amazonaws.com/vidal-casino-frontend:latest
           ports:
             - containerPort: 8080        
           env:
@@ -48,4 +48,4 @@ spec:
     - port: 80                    
       targetPort: 8080            
   selector:
-    app: casino-frontend
+    app: vidal-casino-frontend

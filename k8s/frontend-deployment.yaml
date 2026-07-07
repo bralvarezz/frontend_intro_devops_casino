@@ -29,7 +29,7 @@ spec:
             - containerPort: 8080        
           env:
             - name: BACKEND_HOST
-              value: "http://backend-service:3000"
+              value: "backend-service"
           resources:
             requests:
               cpu: "50m"

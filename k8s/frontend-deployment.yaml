@@ -26,7 +26,7 @@ spec:
         - name: vidal-casino-frontend
           image: 631932931672.dkr.ecr.us-east-1.amazonaws.com/vidal-casino-frontend:latest
           ports:
-            - containerPort: 8080        
+            - containerPort: 80      
           env:
             - name: BACKEND_HOST
               value: "backend-service"
@@ -46,6 +46,6 @@ spec:
   type: LoadBalancer
   ports:
     - port: 80                    
-      targetPort: 8080            
+      targetPort: 80        
   selector:
     app: vidal-casino-frontend

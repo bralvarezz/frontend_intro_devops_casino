@@ -5,9 +5,24 @@ server {
     root /usr/share/nginx/html;
     index index.html;
 
-    # Reverse proxy hacia el backend
-    # ${BACKEND_HOST} es una variable de entorno que pasamos al
-    # 'docker run' en el deploy (-e BACKEND_HOST=...).
+    location /api/apuestas/ {
+        proxy_pass         http://apuestas-service:8005/api/apuestas/;
+        proxy_http_version 1.1;
+        proxy_set_header   Host              $host;
+    }
+
+    location /api/bonos/ {
+        proxy_pass         http://bonos-service:8004/api/bonos/;
+        proxy_http_version 1.1;
+        proxy_set_header   Host              $host;
+    }
+
+    location /api/estadisticas/ {
+        proxy_pass         http://estadisticas-service:8006/api/estadisticas/;
+        proxy_http_version 1.1;
+        proxy_set_header   Host              $host;
+    }
+
     location /api/ {
         proxy_pass         http://${BACKEND_HOST}:3000/api/;
         proxy_http_version 1.1;
@@ -17,14 +32,10 @@ server {
         proxy_set_header   X-Forwarded-Proto $scheme;
     }
 
-    # Health del backend a traves del proxy
     location /health {
         proxy_pass http://${BACKEND_HOST}:3000/health;
     }
 
-    # Single Page App: cualquier ruta no encontrada → index.html
-    # (necesario para que /lobby, /slots, /blackjack funcionen al
-    # recargar la pagina).
     location / {
         try_files $uri $uri/ /index.html;
     }
